@@ -27,11 +27,8 @@ router1 = SimpleRouter()
 router.register(r'', CargoView)
 router1.register(r'', TruckView)
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
-    path('ap/tr/', include(router1.urls))
+    path('api/cargo/', include(router.urls)),  # http://127.0.0.1:8000/api/cargo/
+    path('api/truck/', include(router1.urls))  # http://127.0.0.1:8000/api/truck/
 ]
-
-

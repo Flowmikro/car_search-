@@ -1,8 +1,7 @@
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.viewsets import ModelViewSet
 
 from .serializers import CargoSerializer
 from .models import CargoModel
-from truck.models import TruckModel
 
 
 class CargoView(ModelViewSet):
@@ -10,9 +9,6 @@ class CargoView(ModelViewSet):
     serializer_class = CargoSerializer
 
 
-class Test(ReadOnlyModelViewSet):
-
-    f = TruckModel.objects.values_list('lat', 'lng')
 
 
 

@@ -4,7 +4,7 @@ import string
 from django.db import models
 
 
-def get_random_location():
+def get_random_location():  # Рандомное заполнение локаций
     with open('C:/Users/islam/car_search-/uszips.csv') as f:
         reader = csv.DictReader(f)
         row = random.choice(list(reader))
@@ -31,14 +31,15 @@ class TruckModel(models.Model):
 
         super().save(*args, **kwargs)
 
-    def random_sku(self):
+    def random_sku(self):  # Уникальный номер
         num = random.randint(1000, 9999)
         letter = random.choice(string.ascii_uppercase)
         return f"{num}{letter}"
 
+    # load_capacity обязателен к заполнению
     load_capacity = models.PositiveSmallIntegerField()
-    sku = models.CharField(max_length=5, unique=True, blank=True)
 
+    sku = models.CharField(max_length=5, unique=True, blank=True)
     zip = models.CharField(max_length=10, blank=True, null=True)
     city = models.CharField(max_length=255, blank=True, null=True)
     state_name = models.CharField(max_length=255, blank=True, null=True)
@@ -47,7 +48,3 @@ class TruckModel(models.Model):
 
     def __str__(self):
         return str(self.lat)
-
-
-
-

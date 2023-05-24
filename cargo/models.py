@@ -3,6 +3,7 @@ from django.db import models
 
 
 class CargoModel(models.Model):
+    # weight, description, zip_code_pick_up, zip_code_delivery будут обязательны к заполнению другие автоматом
     weight = models.PositiveSmallIntegerField()
     description = models.TextField()
     zip_code_pick_up = models.CharField(max_length=10, default=0)
@@ -20,6 +21,7 @@ class CargoModel(models.Model):
     lng_delivery = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     delivery = models.BooleanField(default=False)
 
+    # Открываем uszips.csv находим совпадение по zip_code_pick_up
     def fill_location_data(self):
         with open('C:/Users/islam/car_search-/uszips.csv', 'r') as csvfile:
             reader = csv.DictReader(csvfile)
@@ -31,6 +33,7 @@ class CargoModel(models.Model):
                     self.lng_pick_up = row['lng']
                     break
 
+    # Открываем uszips.csv находим совпадение по zip_code_delivery
     def fill_location_delivery(self):
         with open('C:/Users/islam/car_search-/uszips.csv', 'r') as csvfile:
             reader = csv.DictReader(csvfile)
