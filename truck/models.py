@@ -38,3 +38,4 @@ class TruckModel(models.Model):
     load_capacity = models.PositiveSmallIntegerField()
     sku = models.CharField(max_length=5, unique=True, blank=True)
 
+
