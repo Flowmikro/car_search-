@@ -2,7 +2,7 @@ import csv
 from django.db import models
 
 
-class CargoModeTEstTEst(models.Model):
+class CargoModel(models.Model):
     weight = models.PositiveSmallIntegerField()
     description = models.TextField()
     zip_code_pick_up = models.CharField(max_length=10, default=0)

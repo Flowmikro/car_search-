@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from .models import CargoModeTEstTEst
+from .models import CargoModel
 
-admin.site.register(CargoModeTEstTEst)
+admin.site.register(CargoModel)

@@ -1,8 +1,8 @@
-from .models import CargoModeTEstTEst
+from .models import CargoModel
 from rest_framework import serializers
 
 
 class CargoSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CargoModeTEstTEst
+        model = CargoModel
         fields = '__all__'
