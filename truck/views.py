@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ModelViewSet
 
-# Create your views here.
+from .serializers import TruckSerializer
+from .models import TruckModel
+
+
+class TruckView(ModelViewSet):
+    queryset = TruckModel.objects.all()
+    serializer_class = TruckSerializer

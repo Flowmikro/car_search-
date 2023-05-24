@@ -31,12 +31,10 @@ class TruckModel(models.Model):
     def save(self, *args, **kwargs):
         if not self.location:
             location_data = self.random_location()
-            self.location = f"{location_data['city']}, {location_data['state']}"
+            self.location = f"{location_data['zip_code']}, {location_data['city']}, {location_data['state']}, {location_data['lat']}, {location_data['lng']}"
         super().save(*args, **kwargs)
 
     location = models.CharField(max_length=255, blank=True, null=True)
     load_capacity = models.PositiveSmallIntegerField()
     sku = models.CharField(max_length=5, unique=True, blank=True)
-
-
 
