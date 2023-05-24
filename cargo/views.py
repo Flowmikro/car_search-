@@ -2,9 +2,9 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 
 from .serializers import CargoSerializer
-from .models import CargoModel
+from .models import CargoModeTEstTEst
 
 
 class CargoView(ModelViewSet):
-    queryset = CargoModel.objects.all()
+    queryset = CargoModeTEstTEst.objects.all()
     serializer_class = CargoSerializer
