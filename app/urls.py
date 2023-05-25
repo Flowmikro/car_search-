@@ -15,20 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from rest_framework.routers import SimpleRouter
+from django.urls import path
 
-from cargo.views import CargoView
-from truck.views import TruckView
+from cargo.views import CargoAPIList, CargoAPIDetail, CargoAPIUpdate
+from truck.views import TruckAPIList, TruckAPIUpdate
 
-router = SimpleRouter()
-router1 = SimpleRouter()
-
-router.register(r'', CargoView)
-router1.register(r'', TruckView)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/cargo/', include(router.urls)),  # http://127.0.0.1:8000/api/cargo/
-    path('api/truck/', include(router1.urls))  # http://127.0.0.1:8000/api/truck/
+    path('api/cargo/', CargoAPIList.as_view()),
+    path('api/cargo/<int:pk>/', CargoAPIDetail.as_view()),
+    path('api/cargo/update/<int:pk>/', CargoAPIUpdate.as_view()),
+
+    path('api/truck/', TruckAPIList.as_view()),
+    path('api/truck/<int:pk>/', TruckAPIUpdate.as_view()),
 ]
