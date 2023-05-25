@@ -6,3 +6,4 @@ class CargoSerializer(serializers.ModelSerializer):
     class Meta:
         model = CargoModel
         fields = '__all__'
+
