@@ -1,15 +1,53 @@
+import django_filters
+
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from geopy.distance import geodesic as GD
+
+from truck.models import TruckModel
 from .serializers import CargoSerializerList, CargoSerializerUpdate
 from .models import CargoModel
-from truck.models import TruckModel
+
+
+class CargoFilter(django_filters.FilterSet):
+    max_weight = django_filters.NumberFilter(field_name='weight', lookup_expr='lte')
+    max_distance = django_filters.NumberFilter(method='filter_by_distance')
+
+    class Meta:
+        model = CargoModel
+        fields = ['max_weight', 'max_distance']
+
+    def filter_by_distance(self, queryset, name, value):
+        # Получаем все грузы, которые еще не были забраны и у которых есть координаты
+        unpicked_cargos = queryset.filter(pick_up=True).exclude(lat_pick_up=True)
+
+        # Получаем все грузовики, у которых есть координаты
+        trucks = TruckModel.objects.exclude(lat=None).exclude(lng=None)
+
+        result = []
+
+        for cargo in unpicked_cargos:
+            cargo_location = (cargo.lat_pick_up, cargo.lng_pick_up)
+            nearest_distance = float('inf')
+
+            for truck in trucks:
+                truck_location = (truck.lat, truck.lng)
+                distance = GD(cargo_location, truck_location).miles
+
+                if distance < nearest_distance:
+                    nearest_distance = distance
+
+            if nearest_distance <= value and cargo.weight <= self.data.get('max_weight'):
+                result.append(cargo)
+
+        return result
 
 
 class CargoAPIList(ListCreateAPIView):
     queryset = CargoModel.objects.all()
     serializer_class = CargoSerializerList
+    filterset_class = CargoFilter
 
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
@@ -88,9 +126,4 @@ class CargoAPIDetail(APIView):
 class CargoAPIUpdate(RetrieveUpdateDestroyAPIView):
     queryset = CargoModel.objects.all()
     serializer_class = CargoSerializerUpdate
-
-
-
-
-
 
